@@ -1,68 +1,93 @@
-// src/components/Header.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './Header.css';
-import { ROUTE } from '../utils';
-import { selectLogin } from '../../store/login/loginSelector';
-import { useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTE } from "../utils";
+import { selectIsLogin, selectUserType } from "../../store/login/loginSelector";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLoggedIn=useSelector(selectLogin)
+  const defaultMenuItems = [
+{ label: "Find Jobs", path: "/jobSearch" },
+{ label: "How It Works", path: "/howItworks" },
+{ label: "Start Hiring", path: "/startHiring" },
+{label: "Login", path:ROUTE.LOGIN},
+{label: "Sign Up Now", path:ROUTE.REGISTRATION},
+];
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+//  <Route path={ROUTE.SCHOOL_REGISTRATION} exact element={<SchoolRegistration />} />
+//               <Route path={ROUTE.TEACHER_REGISTRATION} exact element={<TeacherRegistrationForm />} />
+//                <Route path={ROUTE.LOGIN} exact element={<Login />} />
+
+  const teacherLoggedInMenuItems = [
+{label: "MY DASHBOARD", path:"/teacherDashboard"},
+{label: "JOBS", path:"/jobSearch"},
+{label: "SCHOOLS", path:"/SCHOOLS"},
+{label: "PROMOTE YOUR PROFILE", path:"/promote"},
+{label: "My Account", path:"/teacherDashboard"}
+];
+
+  const schoolLoggedInMenuItems = [
+
+{label: "MY DASHBOARD", path:"/schoolDashboard"},
+{label: "Add JOBS", path:"/addNewJob"},
+{label: "VIEW JOBS", path:"/viewJobs"},
+{label: "PROMOTE YOUR PROFILE", path:"/promote"},
+{label: "My Account", path:"/schoolDashboard"}
+];
+  const navigate = useNavigate();
+  const [activeLink, setActiveLink] = useState("dashboard");
+  const userType = useSelector(selectUserType);
+    const isLoggedIn = useSelector(selectIsLogin);
+  // Event: Handle link clicks
+  const handleNavigation = (path, linkName) => {
+    setActiveLink(linkName);
+    navigate(path);
   };
 
+ 
+
   return (
-    <header className="header">
-      <div className="header__logo">
-        <Link to="/">Hire Me Please</Link>
+    <div className="bg-white shadow-sm p-3 mb-4 d-flex justify-content-between align-items-center">
+      <h4 className="text-danger m-0">
+        teachers<span className="text-dark">Nest</span>
+      </h4>
+
+      <div className="d-flex align-items-center gap-4">
+        {!isLoggedIn && defaultMenuItems.map((item) => (
+        <button
+          key={item.label}
+          onClick={() => handleNavigation(item.path, item.label)}
+          className={`btn btn-link text-decoration-none ${
+            activeLink === item.label ? "fw-bold text-primary" : "text-dark"
+          }`}
+        >
+          {item.label}
+        </button>
+    ))}
+      {isLoggedIn &&userType=='teacher' && teacherLoggedInMenuItems.map((item) => (
+        <button
+          key={item.label}
+          onClick={() => handleNavigation(item.path, item.label)}
+          className={`btn btn-link text-decoration-none ${
+            activeLink === item.label ? "fw-bold text-primary" : "text-dark"
+          }`}
+        >
+          {item.label}
+        </button>
+    ))}
+      {isLoggedIn&& userType=='school' &&schoolLoggedInMenuItems.map((item) => (
+        <button
+          key={item.label}
+          onClick={() => handleNavigation(item.path, item.label)}
+          className={`btn btn-link text-decoration-none ${
+            activeLink === item.label ? "fw-bold text-primary" : "text-dark"
+          }`}
+        >
+          {item.label}
+        </button>
+    ))}
       </div>
-      <nav className={`header__nav ${isMenuOpen ? 'header__nav--open' : ''}`}>
-        <ul>
-          <li><Link to={ROUTE.HOME}>Home</Link></li>
-          <li><Link to={ROUTE.ABOUT_US}>About</Link></li>
-          <li><Link to={ROUTE.SERVICES}>Services</Link></li>
-          <li><Link to={ROUTE.JOB_SEARCH}>Job Search</Link></li>
-          <li><Link to={ROUTE.REGISTRATION}>Registration</Link></li>
-          <li><Link to={{pathname:ROUTE.VIEW_AND_UPDATE_SCHOOL, 
-                      search: '?schoolId=67581142e18a00e9c6384a66'}}>View School</Link></li>
-          <li><Link to={{pathname:ROUTE.VIEW_AND_UPDATE_TEACHER, 
-          search: '?teacherProfileId=67580ca237337839d9d1b0cf'}}>View Profile</Link></li>
-           <li><Link to={ROUTE.ADD_JOB}>Add Jobs</Link></li>
-          <li><Link to={ROUTE.OPEN_JOBS}>Open Jobs</Link></li>
-          <li><Link to={ROUTE.MY_SCHOOL_JOBS}>My School Jobs</Link></li>
-          <li><Link to={ROUTE.CONTACT_US}>Contact</Link></li>
-          {!isLoggedIn && (<li><Link to={ROUTE.LOGIN}>Login</Link></li>)}
-        
-          {isLoggedIn && (<li><Link to={ROUTE.LOGOUT}>Logout</Link></li>)}
-        </ul>
-      </nav>
-      <div className="header__menu-icon" onClick={toggleMenu}>
-        &#9776;
-      </div>
-    </header>
+    </div>
   );
 };
 
 export default Header;
-
-
-{/* <ul className="navbar-nav">
-              <li className="nav-item">
-                <a className="nav-link active" href="/dashboard">Dashboard</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/apply-job">Apply for Job</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/job-listings">Job Listings</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/profile">My Profile</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="/logout">Logout</a>
-              </li> 
-            </ul>*/}

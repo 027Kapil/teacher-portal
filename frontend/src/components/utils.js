@@ -6,8 +6,8 @@ export const ROUTE={
     SERVICES:"/services",
     CONTACT_US:"/contact",
     REGISTRATION:"/register",
-    SCHOOL_REGISTRATION:"/schoolRegister",
-    TEACHER_REGISTRATION:"/teacherRegister",
+    SCHOOL_REGISTRATION:"/register/school",
+    TEACHER_REGISTRATION:"/register/teacher",
     OPEN_JOBS:'/openJobs',
     LOGIN:'/login',
     LOGOUT:'/logout',
@@ -16,6 +16,13 @@ export const ROUTE={
     ADD_JOB:'/addJob',
     MY_SCHOOL_JOBS:'/myschoolJob',
     JOB_SEARCH:'/jobSearch',
-    APPLY_JOB:'/jobSearch/applyJob'
+    APPLY_JOB:'/jobSearch/applyJob',
+    TEACHER_DASHBOARD:"/teacherDashboard",
+    SCHOOL_PAGE:'/schools',
+    PROMOTE:"/promote",
+    CHECKOUT_PLAN:"/checkoutPlan",
+    SCHOOL_JOB_DETAIL:"/schoolJobDetail",
+    HOW_IT_WORKS:"/howItworks",
+    START_HIRING:"/startHiring"
 }
 

@@ -6,7 +6,7 @@ const loginSlice = createSlice({
   initialState: { 
     isLoggedIn:false,
     userData:{},
-    userType:null
+    userType:"teacher"
    },
   reducers: {
     setIsLoggedIn: (state,action) => {

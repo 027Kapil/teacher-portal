@@ -50,18 +50,18 @@ const registerSchool = async (req, res) => {
     });
 
 
-    const user = new User({
-      firstName: schoolName,
-      lastName: schoolName,
-      emailId: email,
-      password: password,
-      userType: 'School',
-      gender: 'NA',
-      contactNumber:contactNumber
-    });
+    // const user = new User({
+    //   firstName: schoolName,
+    //   lastName: schoolName,
+    //   emailId: email,
+    //   password: password,
+    //   userType: 'School',
+    //   gender: 'NA',
+    //   contactNumber:contactNumber
+    // });
 
     await school.save();
-    await user.save();
+    //await user.save();
 
     res.status(201).json({ message: "School registered successfully.", school });
   } catch (error) {
